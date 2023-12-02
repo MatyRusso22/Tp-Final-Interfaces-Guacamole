@@ -4,43 +4,31 @@ using UnityEngine;
 
 public class MoleController : MonoBehaviour
 {
-    public Rigidbody[] arrayTopos;
-    public float movespeed = 1;
-    public float maxHeight = 1;
-    public float minHeight = 0;
+    public Rigidbody mole;
+    private float minHeight;
+    private float maxHeight;
 
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public void setMinHeight(float newMinHeight){
+        minHeight = newMinHeight;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
+    public void setMaxHeight(float newMaxHeight){
+        maxHeight = newMaxHeight;
     }
 
-    void moverTopoArriba(int indexTopo)
+    public void spawnMole(){
+        Instantiate(mole, transform.position, transform.rotation);
+    }
+    
+    public void moveMoleUp()
     {
-        if (arrayTopos[indexTopo].transform.position.y < maxHeight)
-        {
-            arrayTopos[indexTopo].transform.position += (Vector3.up * movespeed) * Time.deltaTime;
-        }
+        Vector3 newPosition = new Vector3(mole.position.x, maxHeight, mole.position.z);
+        mole.MovePosition(newPosition);
     }
 
-    void moverTopoAbajo(int indexTopo)
+    public void moveMoleDown()
     {
-        if (arrayTopos[indexTopo].transform.position.y > minHeight)
-        {
-            arrayTopos[indexTopo].transform.position += (Vector3.down * movespeed * 2) * Time.deltaTime;
-        }
-    }
-
-    public void moverTopoRandom()
-    {
-        int randomNumber = Random.Range(0,3);
-        moverTopoArriba(randomNumber);
+        Vector3 newPosition = new Vector3(mole.position.x, minHeight, mole.position.z);
+        mole.MovePosition(newPosition);
     }
 }
