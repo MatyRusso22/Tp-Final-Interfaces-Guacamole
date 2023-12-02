@@ -4,7 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - mesa
+  - button
+  - table
+  - counter
+  - gamelogic
   layers:
   - Default
   - TransparentFX

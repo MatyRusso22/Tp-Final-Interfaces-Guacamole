@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class topos : MonoBehaviour
+public class MoleController : MonoBehaviour
 {
     public Rigidbody[] arrayTopos;
     public float movespeed = 1;
@@ -27,6 +27,14 @@ public class topos : MonoBehaviour
         if (arrayTopos[indexTopo].transform.position.y < maxHeight)
         {
             arrayTopos[indexTopo].transform.position += (Vector3.up * movespeed) * Time.deltaTime;
+        }
+    }
+
+    void moverTopoAbajo(int indexTopo)
+    {
+        if (arrayTopos[indexTopo].transform.position.y > minHeight)
+        {
+            arrayTopos[indexTopo].transform.position += (Vector3.down * movespeed * 2) * Time.deltaTime;
         }
     }
 
