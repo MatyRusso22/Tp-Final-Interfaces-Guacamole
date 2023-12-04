@@ -5,8 +5,10 @@ using UnityEngine;
 public class MoleController : MonoBehaviour
 {
     public Rigidbody mole;
+    private Rigidbody spawnedMole;
     private float minHeight;
     private float maxHeight;
+    private bool moleHasBeenSpawned = false;
 
     public void setMinHeight(float newMinHeight){
         minHeight = newMinHeight;
@@ -17,7 +19,16 @@ public class MoleController : MonoBehaviour
     }
 
     public void spawnMole(){
-        Instantiate(mole, transform.position, transform.rotation);
+        if (!moleHasBeenSpawned){
+            spawnedMole = Instantiate(mole, transform.position, transform.rotation);
+            setMoleState();
+            Destroy(spawnedMole.gameObject, 2);
+            Invoke("setMoleState", 2);
+        }
+    }
+
+    private void setMoleState(){
+        moleHasBeenSpawned = !moleHasBeenSpawned;
     }
     
     public void moveMoleUp()

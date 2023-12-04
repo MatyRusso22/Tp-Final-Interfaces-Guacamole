@@ -27,6 +27,14 @@ public class MoleArrayController : MonoBehaviour
     public void spawnMole(int moleIndex){
         moles[moleIndex].spawnMole();
     }
+    
+    public int getMoleCount(){
+        int count = 0;
+        foreach (MoleController mole in moles){
+            count++;
+        }
+        return count;
+    }
 }
 
 

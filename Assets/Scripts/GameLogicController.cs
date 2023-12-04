@@ -6,8 +6,8 @@ public class GameLogicController : MonoBehaviour
 {
     private bool gameStart;
     public MoleArrayController moleArray;
+    public UICanvasController ui;
     private ButtonController button;
-    private CounterController counter;
     private float timeUntilNextMole;
     public float initialCounter;
     public float minTimeBetweenMoles;
@@ -19,12 +19,10 @@ public class GameLogicController : MonoBehaviour
     void Start()
     {
         gameStart = false;
-        //moleArray = GameObject.FindGameObjectWithTag("table").GetComponent<MoleArrayController>();
         button = GameObject.FindGameObjectWithTag("button").GetComponent<ButtonController>();
-        counter = GameObject.FindGameObjectWithTag("counter").GetComponent<CounterController>();
-        counter.setCounter(initialCounter);
+        ui = GameObject.FindGameObjectWithTag("uiCanvas").GetComponent<UICanvasController>();
+        ui.setCounter(initialCounter);
         setTimeUntilNextMole();
-        timeUntilNextMole += 1;
         moleArray.setMinHeight(minHeight);
         moleArray.setMaxHeight(maxHeight);
     }
@@ -35,11 +33,11 @@ public class GameLogicController : MonoBehaviour
         if (gameStart)
         {
             //counter
-            if (counter.getCounter() > 0){
-                counter.decTime();
+            if (ui.getCounter() > 0.9){
+                ui.decTime();
                 timeUntilNextMole -= Time.deltaTime;
             } else {
-                counter.setCounter(initialCounter);
+                ui.setCounter(initialCounter);
                 foreach (MoleController mole in moleArray.moles){
                     mole.moveMoleDown();
                 }
@@ -47,7 +45,6 @@ public class GameLogicController : MonoBehaviour
             }
             //moles
             if (timeUntilNextMole < 0){
-                Debug.Log("timeUntilNextMole < 0");
                 itsMoleTime();
                 setTimeUntilNextMole();
             }
@@ -56,19 +53,21 @@ public class GameLogicController : MonoBehaviour
 
     private void setTimeUntilNextMole(){
         timeUntilNextMole = Random.Range(minTimeBetweenMoles,maxTimeBetweenMoles);
-        Debug.Log("time until next mole is " + timeUntilNextMole.ToString());
     }
 
     public void itsMoleTime()
     {
-        Debug.Log("It's mole time.");
-        int randomNumber = Random.Range(0,3);
+        int randomNumber = Random.Range(0,moleArray.getMoleCount());
         moleArray.spawnMole(randomNumber);
         setTimeUntilNextMole();
     }
 
     public void StartGame()
     {
-        gameStart = true;
+        if (!gameStart){
+            gameStart = true;
+            ui.scoreCount = 0;
+        }
     }
 }
+
